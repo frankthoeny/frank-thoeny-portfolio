@@ -1,0 +1,75 @@
+/* src/index.css */
+@import "tailwindcss";
+
+@theme {
+  /* Restored to a deeper midnight navy for a high-contrast professional look */
+  --color-navy: #020617;
+  --color-slate-overlay: rgba(2, 6, 23, 0.8);
+}
+
+@layer base {
+  body {
+    @apply bg-navy text-slate-100;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  ::selection {
+    @apply bg-blue-500/30 text-white;
+  }
+}
+
+/* Use @utility for custom architectural classes */
+
+@utility bg-grid-pattern {
+  /* Subtle grid lines that pop against the deeper background */
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.05) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+@utility animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+@utility glass-panel {
+  /* Adjusted for higher contrast against the #020617 background */
+  @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl;
+}
+
+@utility custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    @apply bg-navy;
+  }
+  &::-webkit-scrollbar-thumb {
+    @apply bg-blue-600/20 rounded-full border-2 border-navy hover:bg-blue-600/40 transition-colors;
+  }
+}
+
+@utility glow-button {
+  @apply relative px-8 py-4 bg-blue-600 rounded-xl font-bold transition-all;
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.15);
+  &:hover {
+    @apply bg-blue-500;
+    box-shadow: 0 0 35px rgba(37, 99, 235, 0.4);
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
