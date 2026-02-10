@@ -1,5 +1,6 @@
 frank-thoeny-portfolio.code-workspace
 .env
+.env.local
 node_modules
 node_modules\*
 package-lock.json

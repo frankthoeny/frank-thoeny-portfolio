@@ -1,10 +1,28 @@
 import React from "react";
-import experience from "../data/experience";
+import { useState, useEffect } from "react";
+import { supabase } from "../supabaseClient";
 import { Briefcase, Building2, Trophy, Landmark } from "lucide-react";
 
 const ICONS = { Briefcase, Building2, Trophy, Landmark };
 
 export default function ExperienceList({ isDark }) {
+  const [experience, setExperience] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchExperience = async () => {
+      const { data, error } = await supabase.from("experience").select("*");
+      if (error) {
+        console.error("Error fetching experience:", error);
+      } else {
+        setExperience(data);
+      }
+      setLoading(false);
+    };
+
+    fetchExperience();
+  }, []);
+  if (loading) return <div>Loading...</div>;
   return (
     <section className="mt-40">
       <div className="flex items-center justify-between mb-16">

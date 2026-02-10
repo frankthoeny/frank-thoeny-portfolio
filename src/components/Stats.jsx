@@ -1,29 +1,13 @@
 import React from "react";
 import stats from "../data/stats.js";
-import {
-  Cpu,
-  Layers,
-  Workflow,
-  CircuitBoard,
-  Figma,
-  Cloud,
-  Briefcase,
-  Code,
-  Database,
-} from "lucide-react";
+import { BrainCircuit, Bot, Zap } from "lucide-react";
 const ICONS = {
-  Cpu,
-  Layers,
-  Workflow,
-  CircuitBoard,
-  Figma,
-  Cloud,
-  Briefcase,
-  Code,
-  Database,
+  BrainCircuit,
+  Bot,
+  Zap,
 };
 
-export default function StatTally({ isDark = false }) {
+export default function Stats({ isDark = false }) {
   return (
     <div className="grid grid-cols-1 gap-3">
       {stats.map((stat, i) => (
@@ -48,11 +32,14 @@ export default function StatTally({ isDark = false }) {
             })()}
           </div>
           <div>
-            <div className="text-[10px] font-black uppercase tracking-widest">
+            <div className="text-[12px] font-black uppercase tracking-widest">
               {stat.title}
             </div>
-            <div className="text-[10px] opacity-50 font-medium">
+            <div className="text-[11px] opacity-50 font-medium pb-1">
               {stat.subtitle}
+            </div>
+            <div className="text-[11px] font-black font-medium tracking-widest">
+              {stat.content}
             </div>
           </div>
         </div>

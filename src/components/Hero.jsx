@@ -23,7 +23,7 @@ export default function Hero({ isDark, onOpenConsultant }) {
             isDark ? "text-slate-400" : "text-slate-500"
           }`}
         >
-          Architecting high-availability systems and{" "}
+          Architecting high-availability systems where{" "}
           <span
             className={`font-medium border-b-4 ${
               isDark
@@ -31,9 +31,11 @@ export default function Hero({ isDark, onOpenConsultant }) {
                 : "text-slate-900 border-blue-600/30"
             }`}
           >
-            modernizing enterprise
+            human intent drives the AI.
           </span>{" "}
-          infrastructure for the next decade.
+          I specialize in modernizing enterprise infrastructure for the next
+          decade—ensuring that as we automate the mundane, we don't lose sight
+          of the mission-critical.
         </p>
 
         <div className="flex flex-wrap gap-4">

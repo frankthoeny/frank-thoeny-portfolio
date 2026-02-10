@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import Hero from "./components/Hero";
 import TerminalConsole from "./components/TerminalConsole";
-import StatTally from "./components/StatTally";
+import Stats from "./components/Stats";
 import ExperienceList from "./components/ExperienceList";
 import CaseStudiesGrid from "./components/CaseStudiesGrid";
 import TechMatrix from "./components/TechMatrix";
@@ -15,7 +15,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 const App = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeTechCategory, setActiveTechCategory] = useState(
-    "Systems Engineering"
+    "Systems Engineering",
   );
   const [terminalText, setTerminalText] = useState("");
   const [isConsultantOpen, setIsConsultantOpen] = useState(false);
@@ -23,7 +23,7 @@ const App = () => {
   const [techInsight, setTechInsight] = useState(null);
 
   const fullTerminalText = [
-    "> INITIALIZING_THOENY_CORE_v2.6...",
+    "> INITIALIZING_CORE_v2.6...",
     "[RESUME_LOADED] 15+_YEARS_SYSTEMS_ENG...",
     "GEMINI_AI_ACTIVE: STRATEGIC_ADVISORY_LAYER_READY...",
     "SPECIALIZATION: HEADLESS_DECOUPLING... [OK]",
@@ -56,7 +56,7 @@ const App = () => {
       const response = await callGemini(
         apiKey,
         `Explain the engineering value of ${tech}`,
-        sysPrompt
+        sysPrompt,
       );
       setTechInsight({ tech, content: response, loading: false });
     } catch (e) {
@@ -104,7 +104,7 @@ const App = () => {
               <div className="space-y-4">
                 <TerminalConsole terminalText={terminalText} isDark={isDark} />
 
-                <StatTally isDark={isDark} />
+                <Stats isDark={isDark} />
               </div>
             </div>
           </div>

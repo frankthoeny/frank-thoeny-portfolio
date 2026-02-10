@@ -1,8 +1,26 @@
 import React from "react";
-import caseStudies from "../data/caseStudies";
+import { useState, useEffect } from "react";
 import { CheckCircle2 } from "lucide-react";
-
+import { supabase } from "../supabaseClient";
 export default function CaseStudiesGrid({ isDark }) {
+  const [caseStudies, setcaseStudies] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCaseStudies = async () => {
+      const { data, error } = await supabase.from("case_studies").select("*");
+      if (error) {
+        console.error("Error fetching case studies:", error);
+      } else {
+        setcaseStudies(data);
+      }
+      setLoading(false);
+    };
+
+    fetchCaseStudies();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
   return (
     <section id="studies" className="mt-40">
       <div className="mb-20">
