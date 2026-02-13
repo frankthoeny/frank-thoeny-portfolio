@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from "react";
-import NavBar from "./components/NavBar";
-import Hero from "./components/Hero";
-import TerminalConsole from "./components/TerminalConsole";
-import Stats from "./components/Stats";
-import ExperienceList from "./components/ExperienceList";
-import CaseStudiesGrid from "./components/CaseStudiesGrid";
-import TechMatrix from "./components/TechMatrix";
-import TechInsightPanel from "./components/TechInsightPanel";
-import Footer from "./components/Footer";
-import StrategyModal from "./components/StrategyModal";
+import NavBar from "./components/layout/NavBar";
+import Hero from "./components/layout/Hero";
+import TerminalConsole from "./components/ui/TerminalConsole";
+import StatsPage from "./components/pages/StatsPage";
+import ExperiencePage from "./components/pages/ExperiencePage";
+import CaseStudiesPage from "./components/pages/CaseStudiesPage";
+import SkillsPage from "./components/pages/SkillsPage";
+import DemoPage from "./components/pages/DemoPage";
+import TechInsightPanel from "./components/ui/TechInsightPanel";
+import Footer from "./components/layout/Footer";
+import StrategyModal from "./components/modals/StrategyModal";
 import { callGemini } from "./services/gemini";
 import { ThemeProvider } from "./context/ThemeContext";
 
 const App = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [activeTechCategory, setActiveTechCategory] = useState(
-    "Systems Engineering",
-  );
   const [terminalText, setTerminalText] = useState("");
   const [isConsultantOpen, setIsConsultantOpen] = useState(false);
   const [theme, setTheme] = useState("light");
@@ -104,24 +102,21 @@ const App = () => {
               <div className="space-y-4">
                 <TerminalConsole terminalText={terminalText} isDark={isDark} />
 
-                <Stats isDark={isDark} />
+                <StatsPage isDark={isDark} />
               </div>
             </div>
           </div>
+          <CaseStudiesPage isDark={isDark} />
+          <ExperiencePage isDark={isDark} />
 
-          <ExperienceList isDark={isDark} />
-          <CaseStudiesGrid isDark={isDark} />
-          <TechMatrix
-            isDark={isDark}
-            activeTechCategory={activeTechCategory}
-            setActiveTechCategory={setActiveTechCategory}
-            onSelectTech={generateTechInsight}
-          />
+          <SkillsPage isDark={isDark} onSelectTech={generateTechInsight} />
           <TechInsightPanel
             techInsight={techInsight}
             isDark={isDark}
             onClose={() => setTechInsight(null)}
           />
+
+          <DemoPage isDark={isDark} />
 
           <Footer isDark={isDark} />
 
