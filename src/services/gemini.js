@@ -16,7 +16,12 @@ export async function callGemini(apiKey, userQuery, systemPrompt) {
                 }
             );
 
-            if (!response.ok) throw new Error("API Error");
+            if (!response.ok) {
+                if (response.status === 429) {
+                    throw new Error("QUOTA_EXCEEDED");
+                }
+                throw new Error("API Error");
+            }
             const data = await response.json();
             return data.candidates?.[0]?.content?.parts?.[0]?.text || null;
         } catch (err) {
