@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "./components/layout/NavBar";
 import Hero from "./components/layout/Hero";
-import TerminalConsole from "./components/ui/TerminalConsole";
 import StatsPage from "./components/pages/StatsPage";
 import ExperiencePage from "./components/pages/ExperiencePage";
 import CaseStudiesPage from "./components/pages/CaseStudiesPage";
@@ -15,32 +14,14 @@ import { ThemeProvider } from "./context/ThemeContext";
 
 const App = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [terminalText, setTerminalText] = useState("");
   const [isConsultantOpen, setIsConsultantOpen] = useState(false);
   const [theme, setTheme] = useState("light");
   const [techInsight, setTechInsight] = useState(null);
-
-  const fullTerminalText = [
-    "> INITIALIZING_CORE_v2.6...",
-    "[RESUME_LOADED] 15+_YEARS_SYSTEMS_ENG...",
-    "GEMINI_AI_ACTIVE: STRATEGIC_ADVISORY_LAYER_READY...",
-    "SPECIALIZATION: HEADLESS_DECOUPLING... [OK]",
-    "SECURITY_AUDIT: SECTION_508_COMPLIANT...",
-    "READY_FOR_STRATEGIC_ENGAGEMENT...",
-    "[EOF]",
-  ].join(" ");
 
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY ?? "";
 
   useEffect(() => {
     setIsVisible(true);
-    let i = 0;
-    const interval = setInterval(() => {
-      setTerminalText(fullTerminalText.slice(0, i));
-      i++;
-      if (i > fullTerminalText.length) clearInterval(interval);
-    }, 20);
-    return () => clearInterval(interval);
   }, []);
 
   const toggleTheme = () =>
@@ -58,7 +39,17 @@ const App = () => {
       );
       setTechInsight({ tech, content: response, loading: false });
     } catch (e) {
-      setTechInsight(null);
+      if (e.message === "QUOTA_EXCEEDED") {
+        setTechInsight({
+          tech,
+          content:
+            "Quota exceeded: Your Gemini AI minutes have run out. Please check your Google AI Studio account.",
+          loading: false,
+          error: true,
+        });
+      } else {
+        setTechInsight(null);
+      }
     }
   };
 
@@ -83,7 +74,7 @@ const App = () => {
 
         <NavBar isDark={isDark} toggleTheme={toggleTheme} />
 
-        <main className="relative max-w-6xl mx-auto px-6 py-24">
+        <main className="relative max-w-6xl mx-auto px-6 py-15">
           <div
             className={`transition-all duration-1000 transform ${
               isVisible
@@ -100,8 +91,6 @@ const App = () => {
               </div>
 
               <div className="space-y-4">
-                <TerminalConsole terminalText={terminalText} isDark={isDark} />
-
                 <StatsPage isDark={isDark} />
               </div>
             </div>
