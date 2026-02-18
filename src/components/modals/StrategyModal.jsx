@@ -6,11 +6,13 @@ export default function StrategyModal({ isOpen, onClose, apiKey }) {
   const [prompt, setPrompt] = useState("");
   const [geminiResponse, setGeminiResponse] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [quotaWarning, setQuotaWarning] = useState(false);
 
   const askArchitect = async () => {
     const sysPrompt =
       "You are Frank Thoeny's virtual Technical Consultant. You represent a Principal Systems Engineer with 15+ years of experience. Your goal is to provide high-level architectural strategies for legacy modernization, headless architectures, and enterprise scalability. Keep responses structured with bullet points.";
     setIsLoading(true);
+    setQuotaWarning(false);
     try {
       const response = await callGemini(
         apiKey,
@@ -19,9 +21,13 @@ export default function StrategyModal({ isOpen, onClose, apiKey }) {
       );
       setGeminiResponse(response);
     } catch (e) {
-      setGeminiResponse(
-        "Architectural consultant offline. Please try again later.",
-      );
+      if (e.message === "QUOTA_EXCEEDED") {
+        setQuotaWarning(true);
+      } else {
+        setGeminiResponse(
+          "Architectural consultant offline. Please try again later.",
+        );
+      }
     } finally {
       setIsLoading(false);
     }
@@ -45,6 +51,7 @@ export default function StrategyModal({ isOpen, onClose, apiKey }) {
             onClick={() => {
               onClose();
               setGeminiResponse("");
+              setQuotaWarning(false);
             }}
             className="font-black text-[10px] uppercase text-slate-500 hover:text-slate-800"
           >
@@ -52,13 +59,23 @@ export default function StrategyModal({ isOpen, onClose, apiKey }) {
           </button>
         </div>
         <div className="p-10">
+          {quotaWarning && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm">
+              <strong>Quota Exceeded:</strong> Your Gemini AI minutes have run
+              out. Please check your Google AI Studio account for usage limits
+              or try again later.
+            </div>
+          )}
           {geminiResponse ? (
             <div className="space-y-8">
               <div className="p-8 rounded-[1.5rem] text-sm leading-relaxed border whitespace-pre-wrap max-h-[30rem] overflow-y-auto bg-slate-50 border-slate-100 text-slate-700">
                 {geminiResponse}
               </div>
               <button
-                onClick={() => setGeminiResponse("")}
+                onClick={() => {
+                  setGeminiResponse("");
+                  setQuotaWarning(false);
+                }}
                 className="text-[11px] font-black uppercase text-blue-500 tracking-[0.3em] hover:text-blue-400 transition-colors"
               >
                 ✨ Generate New Strategy
