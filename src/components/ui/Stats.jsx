@@ -20,23 +20,30 @@ export default function Stats({ isDark = false, stats }) {
               : "bg-white border-slate-200 text-slate-800"
           }`}
         >
-          <div
+          {/* <div
             className={`p-3 rounded-xl border transition-colors ${
               isDark
                 ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
                 : "bg-slate-50 text-blue-600 border-slate-100"
             }`}
-          >
-            {(() => {
-              const Icon = ICONS[stat.icon] || Briefcase;
-              return <Icon className="w-6 h-6" />;
-            })()}
-          </div>
+          ></div> */}
           <div>
             <div className="text-[12px] font-black uppercase tracking-widest">
+              <span
+                className={`p-3 rounded-xl border transition-colors ${
+                  isDark
+                    ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
+                    : "bg-slate-50 text-blue-600 border-slate-100"
+                }`}
+              >
+                {(() => {
+                  const Icon = ICONS[stat.icon] || Briefcase;
+                  return <Icon className="w-6 h-6 inline" />;
+                })()}
+              </span>
               {stat.title}
             </div>
-            <div className="text-[11px] opacity-50 font-medium pb-1">
+            <div className="text-[11px] opacity-50 font-medium pb-1 ml-12">
               {stat.subtitle}
             </div>
             <div className="text-[11px] font-black font-medium tracking-widest">
