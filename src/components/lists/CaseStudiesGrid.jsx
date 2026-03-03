@@ -3,9 +3,9 @@ import { CheckCircle2 } from "lucide-react";
 
 export default function CaseStudiesGrid({ isDark, caseStudies }) {
   return (
-    <section id="studies" className="mt-40">
-      <div className="mb-20">
-        <h2 className="text-[11px] font-black uppercase tracking-[0.5em] text-blue-600 mb-4">
+    <section id="studies" className="mt-30">
+      <div className="mb-10">
+        <h2 className="inline-flex items-center gap-3 text-[11px] font-black px-4 py-2 rounded-xl border uppercase tracking-[0.5em] bg-blue-500/10 border-blue-500/20 text-blue-600 mb-4">
           Technical Deliverables
         </h2>
         <h3
