@@ -15,7 +15,7 @@ export default function Footer({ isDark }) {
       </div>
       <p
         className={`text-[10px] font-black uppercase tracking-[0.4em] ${
-          isDark ? "opacity-20" : "text-slate-300"
+          isDark ? "text-slate-200" : "text-blue-700"
         }`}
       >
         © 2026 Frank Thoeny // Principal Architect
