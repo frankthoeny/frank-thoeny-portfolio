@@ -49,7 +49,11 @@ export default function CaseStudiesGrid({ isDark, caseStudies }) {
                   isDark ? "opacity-70" : "text-slate-700"
                 }`}
               >
-                {study.solution}
+                {study.solution.map((s) => (
+                  <span key={s} className="block mb-2">
+                    {s}
+                  </span>
+                ))}
               </p>
             </div>
             <div className="mt-auto">
