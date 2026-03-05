@@ -36,6 +36,14 @@ export default function CaseStudiesGrid({ isDark, caseStudies }) {
             >
               {study.title}
             </h4>
+
+            {study.image_path && (
+              <div
+                style={{ backgroundImage: `url(${study.image_path})` }}
+                className="w-full h-48 bg-contain bg-center bg-no-repeat rounded-lg mb-6"
+              ></div>
+            )}
+
             <div className="space-y-6 mb-10 text-sm">
               <p
                 className={`italic ${
