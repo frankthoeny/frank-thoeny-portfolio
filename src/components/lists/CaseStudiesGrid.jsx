@@ -1,7 +1,10 @@
 import React from "react";
 import { CheckCircle2 } from "lucide-react";
+import caseStudiesData from "../../data/caseStudies";
 
 export default function CaseStudiesGrid({ isDark, caseStudies }) {
+  const displayCaseStudies =
+    caseStudies && caseStudies.length > 0 ? caseStudies : caseStudiesData;
   return (
     <section id="studies" className="mt-30">
       <div className="mb-10">
@@ -17,7 +20,7 @@ export default function CaseStudiesGrid({ isDark, caseStudies }) {
         </h3>
       </div>
       <div className="grid md:grid-cols-3 gap-8">
-        {caseStudies.map((study) => (
+        {displayCaseStudies.map((study) => (
           <div
             key={study.id}
             className={`flex flex-col p-10 rounded-[40px] border transition-all group ${
@@ -57,11 +60,7 @@ export default function CaseStudiesGrid({ isDark, caseStudies }) {
                   isDark ? "opacity-70" : "text-slate-700"
                 }`}
               >
-                {study.solution.map((s) => (
-                  <span key={s} className="block mb-2">
-                    {s}
-                  </span>
-                ))}
+                <span className="block mb-2">{study.solution}</span>
               </p>
             </div>
             <div className="mt-auto">

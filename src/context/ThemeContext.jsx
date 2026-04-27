@@ -1,5 +1,4 @@
 import React, { createContext, useContext } from "react";
-
 const ThemeContext = createContext({ isDark: false, toggleTheme: () => {} });
 
 export function ThemeProvider({ children, value }) {

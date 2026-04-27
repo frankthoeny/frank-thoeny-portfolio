@@ -9,7 +9,7 @@ import DemoPage from "./components/pages/DemoPage";
 import TechInsightPanel from "./components/ui/TechInsightPanel";
 import Footer from "./components/layout/Footer";
 import StrategyModal from "./components/modals/StrategyModal";
-import { callGemini } from "./services/gemini";
+import { useGemini } from "./services/gemini";
 import { ThemeProvider } from "./context/ThemeContext";
 
 const App = () => {
@@ -32,7 +32,7 @@ const App = () => {
     const sysPrompt = `You are an expert technical architect. Explain the strategic importance of '${tech}' within a modern enterprise environment and how it integrates with other high-level systems. Keep it to 3 concise sentences.`;
     setTechInsight({ tech, loading: true });
     try {
-      const response = await callGemini(
+      const response = await useGemini(
         apiKey,
         `Explain the engineering value of ${tech}`,
         sysPrompt,
@@ -74,7 +74,7 @@ const App = () => {
 
         <NavBar isDark={isDark} toggleTheme={toggleTheme} />
 
-        <main className="relative max-w-6xl mx-auto px-6 py-15">
+        <main className="relative max-w-6xl mx-auto px-6 py-5">
           <div
             className={`transition-all duration-1000 transform ${
               isVisible
@@ -96,7 +96,7 @@ const App = () => {
             </div>
           </div>
           <CaseStudiesPage isDark={isDark} />
-          <ExperiencePage isDark={isDark} />
+          {/* <ExperiencePage isDark={isDark} /> */}
 
           <SkillsPage isDark={isDark} onSelectTech={generateTechInsight} />
           <TechInsightPanel

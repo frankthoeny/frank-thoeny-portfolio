@@ -1,6 +1,15 @@
 frank-thoeny-portfolio.code-workspace
 .env
 .env.local
+.env.production
+.env.*
+
 node_modules
 node_modules\*
 package-lock.json
+
+README_DEV.md
+README_INSTALL.md
+README.md
+
+supabase/migrations/*

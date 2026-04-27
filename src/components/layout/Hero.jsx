@@ -3,14 +3,10 @@ import { ShieldCheck, Sparkles, Linkedin, Mail, Github } from "lucide-react";
 
 export default function Hero({ isDark, onOpenConsultant }) {
   return (
-    <header className="transition-all duration-1000 transform opacity-100 translate-y-0">
+    <header className="transition-all duration-1000 transform opacity-100 translate-y-0 -mx-4 px-4 md:mx-0 md:px-0">
       <div>
-        <div className="inline-flex items-center gap-3 px-4 py-2 rounded-xl border mb-10 text-[10px] font-black tracking-[0.2em] uppercase transition-colors bg-blue-500/10 border-blue-500/20 text-blue-400">
-          <ShieldCheck className="w-3.5 h-3.5" /> Principal Engineering Identity
-        </div>
-
         <h1
-          className={`text-6xl md:text-8xl font-black tracking-tighter mb-8 leading-[0.85] ${
+          className={`text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter mb-8 leading-[0.85] ${
             isDark ? "text-white" : "text-slate-900"
           }`}
         >
@@ -19,7 +15,7 @@ export default function Hero({ isDark, onOpenConsultant }) {
         </h1>
 
         <p
-          className={`text-2xl md:text-3xl font-light max-w-xl leading-tight mb-12 ${
+          className={`text-lg sm:text-xl md:text-2xl lg:text-3xl font-light max-w-xl leading-tight mb-12 ${
             isDark ? "text-slate-400" : "text-slate-500"
           }`}
         >
@@ -38,10 +34,10 @@ export default function Hero({ isDark, onOpenConsultant }) {
           of the mission-critical.
         </p>
 
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-4">
           <button
             onClick={onOpenConsultant}
-            className="px-10 py-5 bg-blue-600 hover:bg-blue-500 text-white font-bold uppercase tracking-widest text-[10px] rounded-2xl flex items-center gap-3 transition-all active:scale-95 shadow-2xl shadow-blue-900/40"
+            className="px-8 sm:px-10 py-5 bg-blue-600 hover:bg-blue-500 text-white font-bold uppercase tracking-widest text-[10px] rounded-2xl flex items-center gap-3 transition-all active:scale-95 shadow-2xl shadow-blue-900/40 w-full sm:w-auto justify-center"
           >
             <Sparkles className="w-4 h-4" /> Strategy Consultant
           </button>

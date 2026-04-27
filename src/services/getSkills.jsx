@@ -1,4 +1,5 @@
 import { supabase } from "../supabaseClient.js";
+import localTechStack from "../data/techStack.js";
 
 // Cached promise for skills - reuses the same request across renders
 let skillsPromise = null;
@@ -11,8 +12,12 @@ export function getSkills() {
         .select("category, skills");
 
       if (error) {
-        console.error("Error fetching skills:", error);
-        return {};
+        console.warn("Supabase error, defaulting to local skills data:", error.message);
+        return localTechStack;
+      }
+
+      if (!data || data.length === 0) {
+        return localTechStack;
       }
 
       // Group skills by category

@@ -1,9 +1,12 @@
 import React from "react";
 import { Briefcase, Building2, Trophy, Landmark } from "lucide-react";
+import experienceData from "../../data/experience";
 
 const ICONS = { Briefcase, Building2, Trophy, Landmark };
 
 export default function ExperienceList({ isDark, experience }) {
+  const displayExperience =
+    experience && experience.length > 0 ? experience : experienceData;
   return (
     <section className="mt-40">
       <div className="flex items-center justify-between mb-16">
@@ -26,7 +29,7 @@ export default function ExperienceList({ isDark, experience }) {
       </div>
 
       <div className="space-y-6">
-        {experience.map((job, i) => (
+        {displayExperience.map((job, i) => (
           <div
             key={i}
             className={`group relative border p-10 rounded-[2.5rem] transition-all ${

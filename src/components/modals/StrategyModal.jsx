@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 import { Sparkles, Loader2 } from "lucide-react";
-import { callGemini } from "../../services/gemini";
+import { useGemini } from "../../services/gemini";
+import ReactMarkdown from "react-markdown";
 
 export default function StrategyModal({ isOpen, onClose, apiKey }) {
   const [prompt, setPrompt] = useState("");
   const [geminiResponse, setGeminiResponse] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [quotaWarning, setQuotaWarning] = useState(false);
+
+  // Call useGemini at the top level — it's a hook, not a function
+  const { callGemini, loading, error } = useGemini(apiKey);
 
   const askArchitect = async () => {
     const sysPrompt =
-      "You are Frank Thoeny's virtual Technical Consultant. You represent a Principal Systems Engineer with 15+ years of experience. Your goal is to provide high-level architectural strategies for legacy modernization, headless architectures, and enterprise scalability. Keep responses structured with bullet points.";
-    setIsLoading(true);
+      "I am Frank Thoeny's virtual Technical Consultant. You represent a Principal Systems Engineer with 15+ years of experience. Your goal is to provide high-level architectural strategies for legacy modernization, headless architectures, and enterprise scalability. Keep responses structured with bullet points.";
     setQuotaWarning(false);
     try {
+      // Call callGemini as a method, not useGemini directly
       const response = await callGemini(
-        apiKey,
         `Visitor question about strategy: ${prompt}`,
         sysPrompt,
       );
@@ -23,13 +25,15 @@ export default function StrategyModal({ isOpen, onClose, apiKey }) {
     } catch (e) {
       if (e.message === "QUOTA_EXCEEDED") {
         setQuotaWarning(true);
+      } else if (e.message.startsWith("Rate limited")) {
+        setGeminiResponse(
+          "Too many requests. Please wait a moment and try again.",
+        );
       } else {
         setGeminiResponse(
           "Architectural consultant offline. Please try again later.",
         );
       }
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -38,9 +42,9 @@ export default function StrategyModal({ isOpen, onClose, apiKey }) {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-2xl bg-black/60">
       <div
-        className={`w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col border ${"bg-white border-slate-200 text-slate-800"}`}
+        className={`w-full max-w-2xl max-h-[90vh] rounded-[2.5rem] shadow-2xl flex flex-col border ${"bg-white border-slate-200 text-slate-800"}`}
       >
-        <div className="px-10 py-8 border-b flex items-center justify-between">
+        <div className="px-10 py-8 border-b flex items-center justify-between bg-white shrink-0 rounded-t-[2.5rem]">
           <div className="flex items-center gap-4 text-blue-500">
             <Sparkles className="w-5 h-5" />
             <h3 className="font-black uppercase text-[11px] tracking-[0.3em]">
@@ -53,12 +57,12 @@ export default function StrategyModal({ isOpen, onClose, apiKey }) {
               setGeminiResponse("");
               setQuotaWarning(false);
             }}
-            className="font-black text-[10px] uppercase text-slate-500 hover:text-slate-800"
+            className="font-black text-[10px] uppercase text-slate-500 hover:text-slate-800 shrink-0"
           >
             Close
           </button>
         </div>
-        <div className="p-10">
+        <div className="p-10 overflow-y-auto flex-1">
           {quotaWarning && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm">
               <strong>Quota Exceeded:</strong> Your Gemini AI minutes have run
@@ -68,18 +72,9 @@ export default function StrategyModal({ isOpen, onClose, apiKey }) {
           )}
           {geminiResponse ? (
             <div className="space-y-8">
-              <div className="p-8 rounded-[1.5rem] text-sm leading-relaxed border whitespace-pre-wrap max-h-[30rem] overflow-y-auto bg-slate-50 border-slate-100 text-slate-700">
-                {geminiResponse}
+              <div className="p-8 rounded-[1.5rem] text-sm leading-relaxed border bg-slate-50 border-slate-100 text-slate-700 prose prose-slate prose-sm max-w-none">
+                <ReactMarkdown>{geminiResponse}</ReactMarkdown>
               </div>
-              <button
-                onClick={() => {
-                  setGeminiResponse("");
-                  setQuotaWarning(false);
-                }}
-                className="text-[11px] font-black uppercase text-blue-500 tracking-[0.3em] hover:text-blue-400 transition-colors"
-              >
-                ✨ Generate New Strategy
-              </button>
             </div>
           ) : (
             <div className="space-y-8">
@@ -97,10 +92,10 @@ export default function StrategyModal({ isOpen, onClose, apiKey }) {
               />
               <button
                 onClick={askArchitect}
-                disabled={isLoading || !prompt}
+                disabled={loading || !prompt}
                 className="w-full py-6 bg-blue-600 hover:bg-blue-500 text-white font-black uppercase tracking-[0.3em] text-[11px] rounded-2xl flex items-center justify-center gap-4 transition-all shadow-2xl shadow-blue-900/30"
               >
-                {isLoading ? (
+                {loading ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
                 ) : (
                   "Generate Strategic Roadmap"
@@ -109,6 +104,19 @@ export default function StrategyModal({ isOpen, onClose, apiKey }) {
             </div>
           )}
         </div>
+        {geminiResponse && (
+          <div className="px-10 py-6 border-t bg-white shrink-0 rounded-b-[2.5rem]">
+            <button
+              onClick={() => {
+                setGeminiResponse("");
+                setQuotaWarning(false);
+              }}
+              className="text-[11px] font-black uppercase text-blue-500 tracking-[0.3em] hover:text-blue-400 transition-colors"
+            >
+              ✨ Generate New Strategy
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { supabase } from "../supabaseClient.js";
+import localStats from "../data/stats.js";
 
 // Cached promise for stats - reuses the same request across renders
 let statsPromise = null;
@@ -9,11 +10,11 @@ export function getStats() {
             const { data, error } = await supabase.from("stats").select("*");
 
             if (error) {
-                console.error("Error fetching stats:", error);
-                return [];
+                console.warn("Supabase error, defaulting to local stats data:", error.message);
+                return localStats;
             }
 
-            return data || [];
+            return data && data.length > 0 ? data : localStats;
         })();
     }
 

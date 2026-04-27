@@ -1,5 +1,6 @@
 /* src/index.css */
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
   /* Restored to a deeper midnight navy for a high-contrast professional look */
