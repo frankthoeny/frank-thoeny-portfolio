@@ -9,7 +9,7 @@ export default function StrategyModal({ isOpen, onClose, apiKey }) {
   const [quotaWarning, setQuotaWarning] = useState(false);
 
   // Call useGemini at the top level — it's a hook, not a function
-  const { callGemini, loading, error } = useGemini(apiKey);
+  const { callGemini, loading } = useGemini(apiKey);
 
   const askArchitect = async () => {
     const sysPrompt =

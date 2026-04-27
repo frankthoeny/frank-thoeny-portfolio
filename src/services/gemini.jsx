@@ -3,7 +3,7 @@ import { useState, useCallback } from "react";
 const API_URL =
   "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent";
 
-export function useGemini(apiKey, userQuery, systemPrompt) {
+export function useGemini(apiKey) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [response, setResponse] = useState(null);

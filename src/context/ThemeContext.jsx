@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext } from "react";
 const ThemeContext = createContext({ isDark: false, toggleTheme: () => {} });
 
@@ -12,3 +13,4 @@ export function useTheme() {
 }
 
 export default ThemeContext;
+/* eslint-enable react-refresh/only-export-components */

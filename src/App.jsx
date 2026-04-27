@@ -20,6 +20,8 @@ const App = () => {
 
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY ?? "";
 
+   
+  // Trigger entrance animation on mount
   useEffect(() => {
     setIsVisible(true);
   }, []);
@@ -28,12 +30,13 @@ const App = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   const isDark = theme === "dark";
 
+  const { callGemini } = useGemini(apiKey);
+
   const generateTechInsight = async (tech) => {
     const sysPrompt = `You are an expert technical architect. Explain the strategic importance of '${tech}' within a modern enterprise environment and how it integrates with other high-level systems. Keep it to 3 concise sentences.`;
     setTechInsight({ tech, loading: true });
     try {
-      const response = await useGemini(
-        apiKey,
+      const response = await callGemini(
         `Explain the engineering value of ${tech}`,
         sysPrompt,
       );
